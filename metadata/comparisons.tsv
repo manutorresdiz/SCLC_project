@@ -1,0 +1,7 @@
+Comparison	Control_Group	Treatment_Group
+Lu134_mock_Lu134_HighMAX	Lu134_mock	Lu134_HighMAX
+Lu134_mock_Lu134_lowMAX	Lu134_mock	Lu134_lowMAX
+Lu134_mock_Lu134_MYCMAX	Lu134_mock	Lu134_MYCMAX
+Lu165_mock_Lu165_highMAX	Lu165_mock	Lu165_highMAX
+Lu165_mock_Lu165_lowMAX	Lu165_mock	Lu165_lowMAX
+Lu165_mock_Lu165_MYCMAX	Lu165_mock	Lu165_MYCMAX
