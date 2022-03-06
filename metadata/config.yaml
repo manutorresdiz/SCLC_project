@@ -1,0 +1,7 @@
+samples_file: "metadata/samples.tsv"
+#load here your STAR genome path
+STAR_genome: "/mnt/isilon/thomas-tikhonenko_lab/data/index/GRCh38.p13/star.2.7.3a_gencode.v37_GRCh38.13/"
+comparisons: "metadata/comparisons.tsv"
+genome: "/mnt/isilon/thomas-tikhonenko_lab/data/index/gencode.v37.annotation.gff3"
+build_config: "metadata/majiq_config_file.txt"
+salmon_genome: "/scr1/users/torresdizm/genomes/GRCh38.p13/GRCh38.v33_salmon/"
