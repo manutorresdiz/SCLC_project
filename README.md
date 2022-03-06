@@ -4,7 +4,7 @@ This repository specifically downloads and proccesses the bioproject [PRJNA60827
 The different steps involve:
 * Download and conversion to fastq files
 * Align to Hg38
-* Differential splicing analysis using both Majiq
+* Differential splicing analysis using Majiq
 * Differential expression analysis using Salmon and limma
 
 
