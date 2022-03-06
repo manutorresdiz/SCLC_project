@@ -124,6 +124,8 @@ rule majiq_build:
 		majiq_config=config["build_config"]
 	params:
 		path='files/majiq_files/'
+	conda:
+		"envs/majiq_env.yaml"
 	resources:
 		cpu=8,
 		mem=lambda wildcards, attempt: attempt * 8
@@ -133,13 +135,8 @@ rule majiq_build:
 		splicegraph='files/majiq_files/splicegraph.sql'
 #		log='files/majiq_files/majiq.log'
 	shell:
-		"""
-		PS1=dummy
-		. $(conda info --base)/etc/profile.d/conda.sh
-		conda activate majiq_env
-		majiq build --conf {input.majiq_config} --nproc {resources.cpu} \
---disable-ir --simplify -o {params.path} {input.genome}
-		""" 
+		"majiq build --conf {input.majiq_config} --nproc {resources.cpu} "
+		"--disable-ir --simplify -o {params.path} {input.genome}" 
 	
 # #rule to create new column with underscore between names and loop
 # #this will in sense merge the two columns
@@ -152,6 +149,8 @@ rule delta_psi:
 		treatment_majiq_files=lambda wildcards: expand(
 			'files/majiq_files/{group_treatment}{rep}_Aligned.sortedByCoord.out.majiq',
 			group_treatment=groups.Treatment_Group[groups.Comparison == wildcards.comparison],rep=["_rep1","_rep2","_rep3"])
+	conda:
+		"envs/majiq_env.yaml"
 	resources:
 		cpu=4,
 		mem=lambda wildcards, attempt: attempt * 64
@@ -164,14 +163,9 @@ rule delta_psi:
 	output:
 		'files/deltapsi_files/{comparison}.deltapsi.voila'
 	shell:
-		"""
-		PS1=dummy
-		. $(conda info --base)/etc/profile.d/conda.sh
-		conda activate majiq_env
-		majiq deltapsi --output-type voila -grp1 {input.control_majiq_files} -grp2 {input.treatment_majiq_files} \
--n {params.control} {params.treated} -j {resources.cpu} -o {params.path}
-		"""
-
+		"majiq deltapsi --output-type voila -grp1 {input.control_majiq_files} -grp2 {input.treatment_majiq_files} "
+		"-n {params.control} {params.treated} -j {resources.cpu} -o {params.path}"
+		
 rule voila_tsv:
 	input:
 		voila='files/deltapsi_files/{comparison}.deltapsi.voila',
@@ -179,15 +173,12 @@ rule voila_tsv:
 	resources:
 		cpu=4,
 		mem=lambda wildcards, attempt: attempt * 64
+	conda:
+		"envs/majiq_env.yaml"
 	output:
 		'files/deltapsi_files/{comparison}.deltapsi.tsv'
 	shell:
-		"""
-		PS1=dummy
-		. $(conda info --base)/etc/profile.d/conda.sh
-		conda activate voila_env
-		voila tsv -f {output} --show-all -j {resources.cpu} {input.voila} {input.sql}
-		"""
+		"voila tsv -f {output} --show-all -j {resources.cpu} {input.voila} {input.sql}"
 
 #rule psi:
 #	input: 
@@ -196,16 +187,16 @@ rule voila_tsv:
 #	resources:
 #		cpu=4,
 #		mem="4G"
+#	conda:
+#		"envs/majiq_env.yaml"
 #	params:
 #		path="files/psi_files"
 #	output:
 #		tsv_files='files/psi_files/{sample}.psi.tsv',
 #		voila_files='files/psi_files/{sample}.psi.voila'
 #	shell:
-#		"""
-#		conda activate majiq_env
-#		majiq psi --output-type all -j {resources.cpu} {input.majiq_files} -o {params.path}
-#		"""
+#		"majiq psi --output-type all -j {resources.cpu} {input.majiq_files} -o {params.path}"
+
 
 
 rule salmon_quant:
