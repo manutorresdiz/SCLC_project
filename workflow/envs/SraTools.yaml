@@ -1,0 +1,5 @@
+name: SraTools_env
+channels:
+  - bioconda
+dependencies:
+  - sra-tools=2.11.0
